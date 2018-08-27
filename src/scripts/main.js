@@ -1,7 +1,14 @@
-/* This is the starting point of the code, everything gets kicked off here */
-
 'use strict';
 
-import hello from './module';
+import createPhoneBook from './phonebook';
+import random from './random';
 
-hello('world');
+const numberOfNames = 30 * 1000;
+
+let results = createPhoneBook(numberOfNames);
+
+console.log(results);
+
+let target = random(results);
+
+console.log(target);
