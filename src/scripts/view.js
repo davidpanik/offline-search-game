@@ -22,6 +22,8 @@ class View {
 		if (this.target) {
 			this.target.innerHTML = this.template();
 		}
+
+		return this;
 	}
 }
 
