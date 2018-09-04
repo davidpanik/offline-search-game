@@ -37,25 +37,24 @@ setTimeout(() => {
 }, 3000);
 
 let screenView = new View('screen', store.screen, function() {
-	switch(this.data) {
-		case 'intro':
-			return `
-				<p>You kids don't know you're born.</p>
-				<p>When I was your age we didn't have no Google or autocomplete.</p>
-				<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in the book.</p>
-				<p>To help educate you how lucky you all are, here's a little game called "finding someone's phone number in the phone book".</p>
-				<p>It's easy - I tell you someone's name, you have to find out their phone number for me. As quickly as possible.</p>
-				<p>Ready? No? Tough.</p>
+	switch (this.data) {
+	case 'intro':
+		return `
+			<p>You kids don't know you're born.</p>
+			<p>When I was your age we didn't have no Google or autocomplete.</p>
+			<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in the book.</p>
+			<p>To help educate you how lucky you all are, here's a little game called "finding someone's phone number in the phone book".</p>
+			<p>It's easy - I tell you someone's name, you have to find out their phone number for me. As quickly as possible.</p>
+			<p>Ready? No? Tough.</p>
 
-				<button on-click="intro-begin">Let's begin.</button>
-			`;
-			break;
-		case 'game':
-			return `This is the game`;
-			break;
-		default:
-			return `Nothing here`;
-			break;
+			<button on-click="intro-begin">Let's begin.</button>
+		`;
+	case 'game':
+		return `
+			<p>Please find the phone number for ${this.data.target}</p>
+		`;
+	default:
+		return `Nothing here`;
 	}
 });
 

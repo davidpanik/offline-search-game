@@ -1,11 +1,12 @@
 class Clicks {
-	constructor(events, key='on-click', prefix='click-') {
+	constructor(events, key = 'on-click', prefix = 'click-') {
 		this.events = events;
 		this.key = key;
+		this.prefix = prefix;
 
 		document.addEventListener('click', (event) => {
 			if (event.target.getAttribute(this.key)) {
-				this.events.emit(this.prefix + event.target.getAttribute(this.key))
+				this.events.emit(this.prefix + event.target.getAttribute(this.key));
 			}
 		});
 
