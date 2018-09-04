@@ -1,6 +1,5 @@
 /* TODO
 	Go beyond document.getElementById()
-	Get screen template working
 */
 
 'use strict';
@@ -12,11 +11,11 @@ import Events from './events';
 import Clicks from './clicks';
 import View from './view';
 
-const numberOfNames = 30 * 1000;
-
 let store = new Store();
 let events = new Events();
 let clicks = new Clicks(events);
+
+const numberOfNames = 30 * 1000;
 
 store.phoneBook = createPhoneBook(numberOfNames);
 store.target = random(store.phoneBook);
@@ -59,9 +58,6 @@ let screenView = new View('screen', store.screen, function() {
 			break;
 	}
 });
-
-
-clicks.on('mushroom', () => { console.log('YES'); });
 
 clicks.on('intro-begin', () => { screenView.data = 'game'; });
 
