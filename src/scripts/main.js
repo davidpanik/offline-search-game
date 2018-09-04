@@ -11,33 +11,15 @@ import Events from './events';
 import Clicks from './clicks';
 import View from './view';
 
+const numberOfNames = 30 * 1000;
+const namesPerPage = 200;
+
 let store = new Store();
 let events = new Events();
 let clicks = new Clicks(events);
 
-const numberOfNames = 30 * 1000;
-
-store.phoneBook = createPhoneBook(numberOfNames);
-store.target = random(store.phoneBook);
-store.screen = 'intro';
-
-console.log(store.target);
-
-let testView = new View('bob', store.target, function() {
-	return `Number: ${this.data.number}`;
-});
-
-setTimeout(() => {
-	let newTarget = random(store.phoneBook);	
-	// testView.data.number = 123;
-	// testView.render();
-	testView.data = newTarget;
-	console.log(testView.data);
-	console.log(testView.data.number);
-}, 3000);
-
-let screenView = new View('screen', store.screen, function() {
-	switch (this.data) {
+let appView = new View('app', store, function() {
+	switch (this.data.screen) {
 	case 'intro':
 		return `
 			<p>You kids don't know you're born.</p>
@@ -51,12 +33,66 @@ let screenView = new View('screen', store.screen, function() {
 		`;
 	case 'game':
 		return `
-			<p>Please find the phone number for ${this.data.target}</p>
+			<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
+			<p><input type="text" id="game-input"><button on-click="game-submit">Submit</button></p>
+
+			<button on-click="game-begin">Get out phonebook</button>
+		`;
+	case 'book':
+		let intervals = 20;
+
+		let links = '';
+
+		for (let x = 1; x < intervals; x++) {
+			links += `<li><button>Jump in here ${ Math.round((x / intervals) * 100) }%</button></li>`;
+		}
+
+		return `
+			<ul>
+				${links}
+			</ul>
+
+			<button on-click="book-back">Put away phonebook</button>
+		`;
+	case 'page':
+		return `
+			<button on-click="page-back-few">Back a few pages</button>
+			<button on-click="page-back-one">Back one page</button>
+			<ul>
+				<li>Name number</li>
+			</ul>
+			<button on-click="page-forward-one">Forward one page</button>
+			<button on-click="page-forward-few">Forward a few pages</button>
+
+			<button on-click="page-back">Close phonebook</button>
 		`;
 	default:
-		return `Nothing here`;
+		return `
+			Nothing here
+		`;
 	}
 });
 
-clicks.on('intro-begin', () => { screenView.data = 'game'; });
+clicks
+	.on('intro-begin', () => { newGame(); })
+	.on('game-begin', () => { appView.update({ screen: 'book' }); })
+	.on('game-submit', () => { checkAnswer(); })
+	.on('book-back', () => { appView.update({ screen: 'game' }); })
+	.on('page-back', () => { appView.update({ screen: 'game' }); });
 
+function newGame() {
+	appView.data.phoneBook = createPhoneBook(numberOfNames);
+	appView.data.target = random(appView.data.phoneBook);
+	console.log(appView.data.target);
+	appView.update({ screen: 'game' });
+}
+
+function checkAnswer() {
+	if (document.getElementById('game-input').value.replace('-', '') === appView.data.target.number.replace('-', '')) {
+		alert('That is correct!');
+	} else {
+		alert('Sorry that is wrong');
+	}
+}
+
+appView.update({ screen: 'intro' });

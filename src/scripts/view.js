@@ -18,6 +18,11 @@ class View {
 		this.render();
 	}
 
+	update(newData) {
+		this._data = Object.assign({}, this._data, newData);
+		this.render();
+	}
+
 	render() {
 		if (this.target) {
 			this.target.innerHTML = this.template();
