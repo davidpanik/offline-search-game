@@ -44,7 +44,10 @@ let appView = new View('app', store, function() {
 		let links = '';
 
 		for (let x = 1; x < intervals; x++) {
-			links += `<li><button>Jump in here ${ Math.round((x / intervals) * 100) }%</button></li>`;
+			let point = Math.round((x / intervals) * 100);
+			let page = Math.round(point * appView.data.phoneBook.length);
+
+			links += `<li><button on-click="book-open" on-click-data="${page}">Jump in here ${point}%</button></li>`;
 		}
 
 		return `
@@ -77,6 +80,7 @@ clicks
 	.on('intro-begin', () => { newGame(); })
 	.on('game-begin', () => { appView.update({ screen: 'book' }); })
 	.on('game-submit', () => { checkAnswer(); })
+	.on('book-open', (page) => { console.log(page); })
 	.on('book-back', () => { appView.update({ screen: 'game' }); })
 	.on('page-back', () => { appView.update({ screen: 'game' }); });
 

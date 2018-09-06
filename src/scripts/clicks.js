@@ -6,7 +6,8 @@ class Clicks {
 
 		document.addEventListener('click', (event) => {
 			if (event.target.getAttribute(this.key)) {
-				this.events.emit(this.prefix + event.target.getAttribute(this.key));
+				let data = event.target.getAttribute(this.key + '-data');
+				this.events.emit(this.prefix + event.target.getAttribute(this.key), data);
 			}
 		});
 
