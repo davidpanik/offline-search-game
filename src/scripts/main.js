@@ -45,7 +45,7 @@ let appView = new View('app', store, function() {
 
 		for (let x = 1; x < intervals; x++) {
 			let point = Math.round((x / intervals) * 100);
-			let page = Math.round(point * appView.data.phoneBook.length);
+			let page = Math.round(point * appView.data.phoneBook.pages.length);
 
 			links += `<li><button on-click="book-open" on-click-data="${page}">Jump in here ${point}%</button></li>`;
 		}
@@ -80,15 +80,34 @@ clicks
 	.on('intro-begin', () => { newGame(); })
 	.on('game-begin', () => { appView.update({ screen: 'book' }); })
 	.on('game-submit', () => { checkAnswer(); })
-	.on('book-open', (page) => { console.log(page); })
+	.on('book-open', (page) => { gotoPage(page, true); })
 	.on('book-back', () => { appView.update({ screen: 'game' }); })
 	.on('page-back', () => { appView.update({ screen: 'game' }); });
 
 function newGame() {
 	appView.data.phoneBook = createPhoneBook(numberOfNames);
-	appView.data.target = random(appView.data.phoneBook);
+	appView.data.target = random(appView.data.phoneBook.results);
+	console.log(appView.data.phoneBook);
 	console.log(appView.data.target);
 	appView.update({ screen: 'game' });
+}
+
+function gotoPage(page, addRandom = false) {
+	const randomVariation = 40;
+
+	if (addRandom) {
+		page = Math.round(page - (randomVariation / 2) + random(randomVariation));
+	}
+
+	if (page < 0) {
+		page = 0;
+	}
+
+	if (page > appView.data.phoneBook.pages.length - 1) {
+		page = appView.data.phoneBook.pages.length - 1;
+	}
+
+	appView.update({ screen: 'page', phoneBook: { currentPage: page } });
 }
 
 function checkAnswer() {

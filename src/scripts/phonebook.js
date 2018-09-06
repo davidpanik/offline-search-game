@@ -11,6 +11,7 @@ const initials = 'AAAABBBCCCDDDDDDEEEFFGGGGHIJJJJJKLLMMNOOOPOQRRRRSSSTTTUVWWXYZ'
 const surSingle = 'White,Brown,Black,Sharp,Bruce,Smith,Martin,King,Lister,Cooper,Nelson,Jones,Williams,Taylor,Davies,Wilson,Evans,Thomas,Fletcher,Johnson,Roberts,Walker,Robinson,Thomson,Thompson,Whyte,Hughes,Edwards,Green,Lewis,Sharp,Hill,Martin,Jackson,Clark,Clarke,Giles,Foster,Wood,Woods,Fletcher,Lang,Long,Frost'.split(',');
 const surPre = 'Al,Ald,An,Rich,Lam,Ang,Dil,Forest,Art,Bab,Bay,Bar,Bed,Beg,Ben,Ber,Bod,Bog,Drum,Brand,Bail,Brock,Brook,Gower,Chaff,Burn,Burr,Cal,Camp,Ches,Gos,Goth,Not,Knot,Scot,Far,Jack,Fox,Ding,May,Pol,Long,Lang,Wex,Wess,Ed,Mont,Ham,Nor,Fil,Curr,Pat,Cor,Ken,Fra,Frey,Char,Ann,Gib,Sta,Cal,Mil,Pot,Poth,Rob,Rab,Roy,Rae,Mit,Mitch,Bren,Ken,Mal,Mil,Sto,Wil,Wyl,Will,God,Godd,Prat,Pay,Woo,Mun,Forth,Car,Thom,Tom,Fox,Had,Hadd,Kemp,Hemp,Cor,Corn,Ward,Kel,Hamp,Mar,Sal,Pon,Faw,Clar,Hark,Hig,Ril,Sam,Cham,Champ,Clap,Der,Deer,Monk,Haver,Kirk,Kill,Kin,Gon'.split(',');
 const surSuf = 'cok,cott,bery,cock,bert,burger,ford,chester,good,way,man,mon,der,ard,good,smith,martin,er,ick,wick,ing,ington,water,well,ison,son,bell,bury,scott,scot,son,son,son,son,mond,ger,wart,rey,castle,finch,rose,caster,ton,ch,mouth,tton,mick,mickel,ser,lotte,ond,rck,der,ne,ner,nes,ecary,ie,ell,net,nett,ard,chett,ler,ro,worth,will,willis,well,robe,rope,man,mann,vil,vill,ness,ey,y,ch,cort,court'.split(',');
+const numbersPerPage = 400;
 
 function createName() {
 	let title = random(titles);
@@ -64,13 +65,29 @@ function alphabetical(alpha, beta, key1, key2, key3) {
 	}
 }
 
+function chunkArray(myArray, chunkSize) {
+	let tempArray = [];
+
+	for (let index = 0; index < myArray.length; index += chunkSize) {
+		tempArray.push(myArray.slice(index, index + chunkSize));
+	}
+
+	return tempArray;
+}
+
 function createPhoneBook(length) {
 	let results = Array.from({ length: length }, () => createName());
+	let pages = [];
 
 	results
 		.sort((alpha, beta) => { return alphabetical(alpha, beta, 'surname', 'initial', 'title'); });
 
-	return results;
+	pages = chunkArray(results, numbersPerPage);
+
+	return {
+		results: results,
+		pages: pages
+	};
 }
 
 export default createPhoneBook;
