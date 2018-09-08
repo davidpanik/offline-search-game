@@ -1,5 +1,9 @@
 /* TODO
 	Go beyond document.getElementById()
+	Avoid duplicates
+	Add timer
+	Add numeric input
+	Style up
 */
 
 'use strict';
