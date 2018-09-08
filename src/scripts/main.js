@@ -15,8 +15,8 @@ import Events from './events';
 import Clicks from './clicks';
 import View from './view';
 
-const numberOfNames = 30 * 1000;
-const namesPerPage = 200;
+const numberOfNames = 30 * 1000 + random(10000);
+const namesPerPage = 100;
 
 let store = new Store();
 let events = new Events();
@@ -75,7 +75,7 @@ let appView = new View('app', store, function() {
 			<button on-click="page-forward-one">Forward one page</button>
 			<button on-click="page-forward-few">Forward a few pages</button>
 
-			<p>Page number: ${appView.data.phoneBook.currentPage}</p>
+			<p>Page number: ${appView.data.phoneBook.currentPage + 1}</p>
 			<ul>
 				${entries.join('')}
 			</ul>
@@ -93,12 +93,12 @@ clicks
 	.on('intro-begin', () => { newGame(); })
 	.on('game-begin', () => { appView.update({ screen: 'book' }); })
 	.on('game-submit', () => { checkAnswer(); })
-	.on('book-open', (page) => { console.log(page); gotoPage(page, true); })
+	.on('book-open', (page) => { console.log(page); gotoPage(page, 40); })
 	.on('book-back', () => { appView.update({ screen: 'game' }); })
 	.on('page-back', () => { appView.update({ screen: 'book' }); })
-	.on('page-back-few', () => { gotoPage(appView.data.phoneBook.currentPage -= 6); })
+	.on('page-back-few', () => { gotoPage(appView.data.phoneBook.currentPage -= 6, 4); })
 	.on('page-back-one', () => { gotoPage(appView.data.phoneBook.currentPage -= 1); })
-	.on('page-forward-few', () => { gotoPage(appView.data.phoneBook.currentPage += 6); })
+	.on('page-forward-few', () => { gotoPage(appView.data.phoneBook.currentPage += 6, 4); })
 	.on('page-forward-one', () => { gotoPage(appView.data.phoneBook.currentPage += 1); });
 
 function newGame() {
@@ -109,10 +109,8 @@ function newGame() {
 	appView.update({ screen: 'game' });
 }
 
-function gotoPage(page, addRandom = false) {
-	const randomVariation = 40;
-
-	if (addRandom) {
+function gotoPage(page, randomVariation = 0) {
+	if (randomVariation > 0) {
 		page = Math.round(page - (randomVariation / 2) + random(randomVariation));
 	}
 
