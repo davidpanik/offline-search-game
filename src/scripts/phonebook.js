@@ -78,6 +78,16 @@ function createPhoneBook(length) {
 	results
 		.sort((alpha, beta) => { return alphabetical(alpha, beta, 'surname', 'initial', 'title'); });
 
+	results = results.filter((value, index, self) => {
+		let neighbour = self[index + 1];
+
+		if (!neighbour) {
+			return true;
+		}
+
+		return (value.title !== neighbour.title && value.initial !== neighbour.initial && value.surname !== neighbour.surname);
+	});
+
 	pages = chunkArray(results, numbersPerPage);
 
 	return {

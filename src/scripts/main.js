@@ -1,7 +1,9 @@
 /* TODO
-	Go beyond document.getElementById()
-	Avoid duplicates
+	Show success / failure message
+	Results screen
+	Nw game option
 	Add timer
+	Record fastest time
 	Add numeric input
 	Style up
 */
@@ -15,7 +17,7 @@ import Events from './events';
 import Clicks from './clicks';
 import View from './view';
 
-const numberOfNames = 30 * 1000 + random(10000);
+const numberOfNames = 30 * 1000 + random(8 * 1000);
 const namesPerPage = 100;
 
 let store = new Store();
@@ -47,8 +49,8 @@ let appView = new View('app', store, function() {
 
 		let links = '';
 
-		for (let x = 1; x < intervals; x++) {
-			let point = Math.round((x / intervals) * 100);
+		for (let index = 1; index < intervals; index++) {
+			let point = Math.round((index / intervals) * 100);
 			let page = Math.round(point / 100 * appView.data.phoneBook.pages.length);
 
 			links += `<li><button on-click="book-open" on-click-data="${page}">Jump in here ${point}%</button></li>`;
@@ -62,7 +64,6 @@ let appView = new View('app', store, function() {
 			<button on-click="book-back">Put away phonebook</button>
 		`;
 	case 'page':
-		console.log(appView.data.phoneBook);
 		let page = appView.data.phoneBook.pages[appView.data.phoneBook.currentPage];
 
 		let entries = page.map((entry) => {
@@ -93,7 +94,7 @@ clicks
 	.on('intro-begin', () => { newGame(); })
 	.on('game-begin', () => { appView.update({ screen: 'book' }); })
 	.on('game-submit', () => { checkAnswer(); })
-	.on('book-open', (page) => { console.log(page); gotoPage(page, 40); })
+	.on('book-open', (page) => { gotoPage(page, 40); })
 	.on('book-back', () => { appView.update({ screen: 'game' }); })
 	.on('page-back', () => { appView.update({ screen: 'book' }); })
 	.on('page-back-few', () => { gotoPage(appView.data.phoneBook.currentPage -= 6, 4); })
@@ -104,8 +105,6 @@ clicks
 function newGame() {
 	appView.data.phoneBook = createPhoneBook(numberOfNames);
 	appView.data.target = random(appView.data.phoneBook.results);
-	console.log(appView.data.phoneBook);
-	console.log(appView.data.target);
 	appView.update({ screen: 'game' });
 }
 
