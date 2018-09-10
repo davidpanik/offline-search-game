@@ -1,6 +1,4 @@
 /* TODO
-	Show failure message
-	Format displayed time
 	Record fastest time
 	Add numeric input
 	Style up
@@ -38,11 +36,19 @@ let appView = new View('app', store, function() {
 		`;
 
 	case 'game':
+		let failures = appView.data.failures.map((failure) => {
+			return `<li>${failure} was not correct</li>`;
+		});
+
 		return `
 			<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
-			<p><input type="text" id="game-input"><button on-click="game-submit">Submit</button></p>
+			<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit">Submit</button></p>
 
 			<button on-click="game-begin">Get out phonebook</button>
+
+			<ul>
+				${failures.join('')}
+			</ul>
 		`;
 
 	case 'book':
@@ -127,12 +133,16 @@ clicks
 	.on('success-again', () => { newGame(); });
 
 function newGame() {
-	appView.data.phoneBook = createPhoneBook(numberOfNames);
-	appView.data.target = random(appView.data.phoneBook.results);
-	appView.update({ screen: 'game' });
+	let phoneBook = createPhoneBook(numberOfNames);
 
-	timer.show();
-	timer.start();
+	appView.update({
+		phoneBook: phoneBook,
+		target: random(phoneBook.results),
+		screen: 'game',
+		failures: []
+	});
+
+	timer.reset().show().start();
 }
 
 function gotoScreen(screen) {
@@ -155,12 +165,28 @@ function gotoPage(page, randomVariation = 0) {
 	appView.update({ screen: 'page', phoneBook: { currentPage: page } });
 }
 
+function success() {
+	timer.stop().hide();
+	gotoScreen('success');	
+}
+
+function failure(answer) {
+	if (answer !== '') {
+		appView.data.failures.push(answer);
+
+		appView.update({
+			failures: appView.data.failures
+		});
+	}
+}
+
 function checkAnswer() {
-	if (document.getElementById('game-input').value.replace('-', '') === appView.data.target.number.replace('-', '')) {
-		timer.stop();
-		gotoScreen('success');
+	let answer = document.getElementById('game-input').value.replace('-', '').trim();
+
+	if (answer === appView.data.target.number.replace('-', '')) {
+		success();
 	} else {
-		alert('Sorry that is wrong');
+		failure(answer);
 	}
 }
 

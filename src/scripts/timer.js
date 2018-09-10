@@ -12,6 +12,8 @@ class Timer {
 	start() {
 		this.active = true;
 		this.tick();
+
+		return this;
 	}
 
 	tick() {
@@ -40,6 +42,8 @@ class Timer {
 		this.active = false;
 
 		this.render();
+
+		return this;
 	}
 
 	reset() {
@@ -48,26 +52,44 @@ class Timer {
 		this.milliseconds = 0;
 
 		this.render();
+
+		return this;
 	}	
 
 	render() {
 		this.view.update({
-			minutes: this.minutes,
-			seconds: this.seconds,
-			milliseconds: this.milliseconds,
+			minutes: this.format(this.minutes, 2),
+			seconds: this.format(this.seconds, 2),
+			milliseconds: this.format(this.milliseconds, 3)
 		});
+
+		return this;
+	}
+
+	format(number, places) {
+		number = '' + number;
+
+		while (number.length < places) {
+			number = '0' + number;
+		}
+
+		return number;
 	}
 
 	hide() {
 		this.view.update({
 			visible: false
 		});
+
+		return this;
 	}
 
 	show() {
 		this.view.update({
 			visible: true
 		});
+
+		return this;
 	}
 }
 
