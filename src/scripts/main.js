@@ -1,7 +1,5 @@
 /* TODO
-	Show success / failure message
-	Results screen
-	Nw game option
+	Show failure message
 	Add timer
 	Record fastest time
 	Add numeric input
@@ -37,6 +35,7 @@ let appView = new View('app', store, function() {
 
 			<button on-click="intro-begin">Let's begin.</button>
 		`;
+
 	case 'game':
 		return `
 			<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
@@ -44,6 +43,7 @@ let appView = new View('app', store, function() {
 
 			<button on-click="game-begin">Get out phonebook</button>
 		`;
+
 	case 'book':
 		let intervals = 20;
 
@@ -63,6 +63,7 @@ let appView = new View('app', store, function() {
 
 			<button on-click="book-back">Put away phonebook</button>
 		`;
+
 	case 'page':
 		let page = appView.data.phoneBook.pages[appView.data.phoneBook.currentPage];
 
@@ -75,14 +76,22 @@ let appView = new View('app', store, function() {
 			<button on-click="page-back-one">Back one page</button>
 			<button on-click="page-forward-one">Forward one page</button>
 			<button on-click="page-forward-few">Forward a few pages</button>
+			<button on-click="page-back">Close phonebook</button>
 
 			<p>Page number: ${appView.data.phoneBook.currentPage + 1}</p>
 			<ul>
 				${entries.join('')}
 			</ul>
-
-			<button on-click="page-back">Close phonebook</button>
 		`;
+
+	case 'success':
+		return `
+			SUCCESS!
+			<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
+
+			<button on-click="success-again">Play again</button>
+		`;
+
 	default:
 		return `
 			Nothing here
@@ -92,20 +101,25 @@ let appView = new View('app', store, function() {
 
 clicks
 	.on('intro-begin', () => { newGame(); })
-	.on('game-begin', () => { appView.update({ screen: 'book' }); })
+	.on('game-begin', () => { gotoScreen('book'); })
 	.on('game-submit', () => { checkAnswer(); })
 	.on('book-open', (page) => { gotoPage(page, 40); })
-	.on('book-back', () => { appView.update({ screen: 'game' }); })
-	.on('page-back', () => { appView.update({ screen: 'book' }); })
+	.on('book-back', () => { gotoScreen('game'); })
+	.on('page-back', () => { gotoScreen('book'); })
 	.on('page-back-few', () => { gotoPage(appView.data.phoneBook.currentPage -= 6, 4); })
 	.on('page-back-one', () => { gotoPage(appView.data.phoneBook.currentPage -= 1); })
 	.on('page-forward-few', () => { gotoPage(appView.data.phoneBook.currentPage += 6, 4); })
-	.on('page-forward-one', () => { gotoPage(appView.data.phoneBook.currentPage += 1); });
+	.on('page-forward-one', () => { gotoPage(appView.data.phoneBook.currentPage += 1); })
+	.on('success-again', () => { newGame(); });
 
 function newGame() {
 	appView.data.phoneBook = createPhoneBook(numberOfNames);
 	appView.data.target = random(appView.data.phoneBook.results);
 	appView.update({ screen: 'game' });
+}
+
+function gotoScreen(screen) {
+	appView.update({ screen: screen });
 }
 
 function gotoPage(page, randomVariation = 0) {
@@ -126,10 +140,10 @@ function gotoPage(page, randomVariation = 0) {
 
 function checkAnswer() {
 	if (document.getElementById('game-input').value.replace('-', '') === appView.data.target.number.replace('-', '')) {
-		alert('That is correct!');
+		gotoScreen('success'); 
 	} else {
 		alert('Sorry that is wrong');
 	}
 }
 
-appView.update({ screen: 'intro' });
+gotoScreen('intro');
