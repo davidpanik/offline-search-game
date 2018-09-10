@@ -1,6 +1,6 @@
 /* TODO
 	Show failure message
-	Add timer
+	Format displayed time
 	Record fastest time
 	Add numeric input
 	Style up
@@ -14,6 +14,7 @@ import Store from './store';
 import Events from './events';
 import Clicks from './clicks';
 import View from './view';
+import Timer from './timer';
 
 const numberOfNames = 30 * 1000 + random(8 * 1000);
 const namesPerPage = 100;
@@ -88,6 +89,7 @@ let appView = new View('app', store, function() {
 		return `
 			SUCCESS!
 			<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
+			<p>You did it in ${timerView.data.minutes}:${timerView.data.seconds}.${timerView.data.milliseconds}</p>
 
 			<button on-click="success-again">Play again</button>
 		`;
@@ -98,6 +100,18 @@ let appView = new View('app', store, function() {
 		`;
 	}
 });
+
+let timerView = new View('timer', {}, function() {
+	if (this.data.visible) {
+		return `
+			${this.data.minutes}:${this.data.seconds}.${this.data.milliseconds}
+		`;
+	} else {
+		return '';
+	}	
+});
+
+let timer = new Timer(timerView);
 
 clicks
 	.on('intro-begin', () => { newGame(); })
@@ -116,6 +130,9 @@ function newGame() {
 	appView.data.phoneBook = createPhoneBook(numberOfNames);
 	appView.data.target = random(appView.data.phoneBook.results);
 	appView.update({ screen: 'game' });
+
+	timer.show();
+	timer.start();
 }
 
 function gotoScreen(screen) {
@@ -140,7 +157,8 @@ function gotoPage(page, randomVariation = 0) {
 
 function checkAnswer() {
 	if (document.getElementById('game-input').value.replace('-', '') === appView.data.target.number.replace('-', '')) {
-		gotoScreen('success'); 
+		timer.stop();
+		gotoScreen('success');
 	} else {
 		alert('Sorry that is wrong');
 	}
