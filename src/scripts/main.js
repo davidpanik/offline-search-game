@@ -14,8 +14,7 @@ import Clicks from './clicks';
 import View from './view';
 import Timer from './timer';
 
-const numberOfNames = 30 * 1000 + random(8 * 1000);
-const namesPerPage = 100;
+const numberOfNames = 50 * 1000 + random(20 * 1000);
 
 let store = new Store();
 let events = new Events();
@@ -25,14 +24,16 @@ let appView = new View('app', store, function() {
 	switch (this.data.screen) {
 	case 'intro':
 		return `
-			<p>You kids don't know you're born.</p>
-			<p>When I was your age we didn't have no Google or autocomplete.</p>
-			<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in the book.</p>
-			<p>To help educate you how lucky you all are, here's a little game called "finding someone's phone number in the phone book".</p>
-			<p>It's easy - I tell you someone's name, you have to find out their phone number for me. As quickly as possible.</p>
-			<p>Ready? No? Tough.</p>
+			<section class="intro">
+				<p>You kids don't know you're born.</p>
+				<p>When I was your age we didn't have no Google or autocomplete.</p>
+				<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in the book.</p>
+				<p>To help educate you how lucky you all are, here's a little game called "finding someone's phone number in the phone book".</p>
+				<p>It's easy - I tell you someone's name, you have to find out their phone number for me. As quickly as possible.</p>
+				<p>Ready? No? Tough.</p>
 
-			<button on-click="intro-begin">Let's begin.</button>
+				<button on-click="intro-begin">Let's begin.</button>
+			</section>
 		`;
 
 	case 'game':
@@ -41,14 +42,16 @@ let appView = new View('app', store, function() {
 		});
 
 		return `
-			<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
-			<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit">Submit</button></p>
+			<section class="game">
+				<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
+				<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit">Submit</button></p>
 
-			<button on-click="game-begin">Get out phonebook</button>
+				<button on-click="game-begin">Get out phonebook</button>
 
-			<ul>
-				${failures.join('')}
-			</ul>
+				<ul>
+					${failures.join('')}
+				</ul>
+			</section>
 		`;
 
 	case 'book':
@@ -64,11 +67,13 @@ let appView = new View('app', store, function() {
 		}
 
 		return `
-			<ul>
-				${links}
-			</ul>
+			<section class="book">
+				<ul>
+					${links}
+				</ul>
 
-			<button on-click="book-back">Put away phonebook</button>
+				<button on-click="book-back">Put away phonebook</button>
+			</section>
 		`;
 
 	case 'page':
@@ -79,25 +84,29 @@ let appView = new View('app', store, function() {
 		});
 
 		return `
-			<button on-click="page-back-few">Back a few pages</button>
-			<button on-click="page-back-one">Back one page</button>
-			<button on-click="page-forward-one">Forward one page</button>
-			<button on-click="page-forward-few">Forward a few pages</button>
-			<button on-click="page-back">Close phonebook</button>
+			<section class="page">
+				<button on-click="page-back-few">Back a few pages</button>
+				<button on-click="page-back-one">Back one page</button>
+				<button on-click="page-forward-one">Forward one page</button>
+				<button on-click="page-forward-few">Forward a few pages</button>
+				<button on-click="page-back">Close phonebook</button>
 
-			<p>Page number: ${appView.data.phoneBook.currentPage + 1}</p>
-			<ul>
-				${entries.join('')}
-			</ul>
+				<p>Page number: ${appView.data.phoneBook.currentPage + 1}</p>
+				<ul>
+					${entries.join('')}
+				</ul>
+			</section>
 		`;
 
 	case 'success':
 		return `
-			SUCCESS!
-			<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
-			<p>You did it in ${timerView.data.minutes}:${timerView.data.seconds}.${timerView.data.milliseconds}</p>
+			<section class="success">
+				<p>SUCCESS!</p>
+				<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
+				<p>You did it in ${timerView.data.minutes}:${timerView.data.seconds}.${timerView.data.milliseconds}</p>
 
-			<button on-click="success-again">Play again</button>
+				<button on-click="success-again">Play again</button>
+			</section>
 		`;
 
 	default:
