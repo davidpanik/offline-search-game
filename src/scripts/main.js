@@ -27,12 +27,12 @@ let appView = new View('app', store, function() {
 			<section class="intro">
 				<p>You kids don't know you're born.</p>
 				<p>When I was your age we didn't have no Google or autocomplete.</p>
-				<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in the book.</p>
-				<p>To help educate you how lucky you all are, here's a little game called "finding someone's phone number in the phone book".</p>
-				<p>It's easy - I tell you someone's name, you have to find out their phone number for me. As quickly as possible.</p>
+				<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in that book.</p>
+				<p>To help educate you about how lucky you all are, here's a little game called "finding someone's phone number in the phone book". We used to play it all the time back in the day.</p>
+				<p>It's easy - I tell you someone's name, you have to find their phone number for me. As quickly as possible.</p>
 				<p>Ready? No? Tough.</p>
 
-				<button on-click="intro-begin">Let's begin.</button>
+				<button on-click="intro-begin">Let's begin</button>
 			</section>
 		`;
 
@@ -43,8 +43,10 @@ let appView = new View('app', store, function() {
 
 		return `
 			<section class="game">
-				<p>Please find the phone number for ${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
-				<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit">Submit</button></p>
+				<p>Please find the phone number for:</p>
+				<p class="highlight">${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
+
+				<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit"><span class="icon">&phone;</span> Dial</button></p>
 
 				<button on-click="game-begin">Get out phonebook</button>
 
@@ -63,16 +65,21 @@ let appView = new View('app', store, function() {
 			let point = Math.round((index / intervals) * 100);
 			let page = Math.round(point / 100 * appView.data.phoneBook.pages.length);
 
-			links += `<li><button on-click="book-open" on-click-data="${page}">Jump in here ${point}%</button></li>`;
+			links += `<li><button on-click="book-open" on-click-data="${page}">${point}%</button></li>`;
 		}
 
 		return `
 			<section class="book">
+				<p class="highlight">The phonebook</p>
+
+				<p>Imagine this is the phonebook. It was a physical book printed on cheap paper, several inches thick and thousands of pages long.</p>
+				<p>Take a guess how far through the book you want to open</p>
+
 				<ul>
 					${links}
 				</ul>
 
-				<button on-click="book-back">Put away phonebook</button>
+				<button on-click="book-back"><span class="icon">&larrhk;</span> Put away phonebook</button>
 			</section>
 		`;
 
@@ -85,13 +92,13 @@ let appView = new View('app', store, function() {
 
 		return `
 			<section class="page">
-				<button on-click="page-back-few">Back a few pages</button>
-				<button on-click="page-back-one">Back one page</button>
-				<button on-click="page-forward-one">Forward one page</button>
-				<button on-click="page-forward-few">Forward a few pages</button>
-				<button on-click="page-back">Close phonebook</button>
+				<button on-click="page-back-few" title="Back a few pages"><span class="icon">&Larr;</span></button>
+				<button on-click="page-back-one" title="Back one page"><span class="icon">&leftarrow;</span></button>
+				<button on-click="page-forward-one" title="Forward one page"><span class="icon">&rightarrow;</span></button>
+				<button on-click="page-forward-few" title="Forward a few pages"><span class="icon">&Rarr;</span></button>
+				<button on-click="page-back" title="Close phonebook"><span class="icon">&larrhk;</span></button>
 
-				<p>Page number: ${appView.data.phoneBook.currentPage + 1}</p>
+				<p class="highlight">Page number: ${appView.data.phoneBook.currentPage + 1}</p>
 				<ul>
 					${entries.join('')}
 				</ul>
@@ -119,7 +126,7 @@ let appView = new View('app', store, function() {
 let timerView = new View('timer', {}, function() {
 	if (this.data.visible) {
 		return `
-			${this.data.minutes}:${this.data.seconds}.${this.data.milliseconds}
+			<div>${this.data.minutes}:${this.data.seconds}.${this.data.milliseconds}</div>
 		`;
 	} else {
 		return '';

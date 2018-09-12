@@ -1,10 +1,22 @@
 @import './vendor/_meyer-reset.scss';
 
+$color-black: #000;
+$color-white: #FFF;
+$color-yellow: #F1F000;
+$color-blue: #0000F0;
+$color-green: #01F001;
+$color-cyan: #00F0F1;
+$color-purple: #F200F2;
+$border-width: 20px;
+$font-family: Courier, sans-serif;
+
+
 body {
-	font-family: Courier, sans-serif;
+	font-family: $font-family;
 	max-height: 100vh;
 	height: 100vh;
 	text-align: center;
+	background: $color-black;
 }
 
 * {
@@ -12,43 +24,96 @@ body {
 }
 
 button {
-	font-family: Courier, sans-serif;
+	font-family: $font-family;
 	text-transform: uppercase;
-	font-weight: 700;
+	font-weight: bold;
 	letter-spacing: 0.3em;
 	cursor: pointer;
-	background: #000;
+	background: $color-purple;
 	color: #fff;
 	border: none;
 	padding: 20px;
+	font-size: 1.1em;
 
 	&:hover,
 	&:focus {
-		background: #333;
+		background:  $color-cyan;
 	}
+}
+
+section.page li,
+p {
+	color: $color-yellow;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+}
+
+p {
+	font-size: 1.1em;
+	margin-bottom: 1em;
 }
 
 .content {
 	height: 100%;
-	border: 20px solid #000;
+	border: $border-width solid $color-blue;
 	display: flex;
 	align-content: center;
 	justify-content: center;
+	background: $color-black;
+}
+
+#app {
+	display: flex;
+	align-items: center;
+
+	section {
+		width: 80%;
+		max-width: 1000px;
+		margin: 0 auto;
+	}
 }
 
 #timer {
-	position: fixed;
-	top: 0;
-	right: 0;
-	border: 20px solid #000;
-	padding: 10px 20px;
-	background: #fff;
+	div {
+		position: fixed;
+		top: 0;
+		right: 0;
+		border: $border-width solid $color-blue;
+		padding: 10px 20px;
+		background: $color-yellow;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+}
+
+section.intro {
+	button {
+		margin-top: 3em;
+	}
 }
 
 section.book {
-	li {
-		display: inline-block;
-		width: 50%;
+	ul {
+		margin: 4em 0;
+
+		li {
+			display: inline-block;
+			margin: 10px;
+		}
+	}
+}
+
+section.game {
+	input {
+		background: $color-blue;
+		color: $color-white;
+		border: none;
+		font-family: $font-family;
+		text-transform: uppercase;
+		font-weight: bold;
+		letter-spacing: 0.2em;
+		font-size: 2em;
+		padding: 0.8em;
 	}
 }
 
@@ -56,10 +121,24 @@ section.page {
 	ul {
 		text-align: left;
 		column-count: 2;
-		max-width: 1200px;
+
+		li {
+			font-size: 0.9em;
+		}
 
 		.number {
 			float: right;
 		}
 	}
+}
+
+.icon {
+	font-size: 1.6em;
+	position: relative;
+	top: 0.2em;
+}
+
+.highlight {
+	color: $color-green;
+	font-size: 1.5em;
 }
