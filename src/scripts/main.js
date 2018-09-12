@@ -25,6 +25,14 @@ let appView = new View('app', store, function() {
 	case 'intro':
 		return `
 			<section class="intro">
+				<p class="title">
+					&nbsp;██████╗&nbsp;███████╗███████╗██╗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██╗███╗&nbsp;&nbsp;&nbsp;██╗███████╗&nbsp;&nbsp;&nbsp;&nbsp;███████╗███████╗&nbsp;█████╗&nbsp;██████╗&nbsp;&nbsp;██████╗██╗&nbsp;&nbsp;██╗<br/>
+					██╔═══██╗██╔════╝██╔════╝██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║████╗&nbsp;&nbsp;██║██╔════╝&nbsp;&nbsp;&nbsp;&nbsp;██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║&nbsp;&nbsp;██║<br/>
+					██║&nbsp;&nbsp;&nbsp;██║█████╗&nbsp;&nbsp;█████╗&nbsp;&nbsp;██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║██╔██╗&nbsp;██║█████╗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;███████╗█████╗&nbsp;&nbsp;███████║██████╔╝██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;███████║<br/>
+					██║&nbsp;&nbsp;&nbsp;██║██╔══╝&nbsp;&nbsp;██╔══╝&nbsp;&nbsp;██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║██║╚██╗██║██╔══╝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╚════██║██╔══╝&nbsp;&nbsp;██╔══██║██╔══██╗██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██╔══██║<br/>
+					╚██████╔╝██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;███████╗██║██║&nbsp;╚████║███████╗&nbsp;&nbsp;&nbsp;&nbsp;███████║███████╗██║&nbsp;&nbsp;██║██║&nbsp;&nbsp;██║╚██████╗██║&nbsp;&nbsp;██║<br/>
+					&nbsp;╚═════╝&nbsp;╚═╝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╚═╝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╚══════╝╚═╝╚═╝&nbsp;&nbsp;╚═══╝╚══════╝&nbsp;&nbsp;&nbsp;&nbsp;╚══════╝╚══════╝╚═╝&nbsp;&nbsp;╚═╝╚═╝&nbsp;&nbsp;╚═╝&nbsp;╚═════╝╚═╝&nbsp;&nbsp;╚═╝<br/>
+				</p>
 				<p>You kids don't know you're born.</p>
 				<p>When I was your age we didn't have no Google or autocomplete.</p>
 				<p>If we wanted to find something out we either had to ask someone who knew, or find a book then find it in that book.</p>
@@ -108,7 +116,14 @@ let appView = new View('app', store, function() {
 	case 'success':
 		return `
 			<section class="success">
-				<p class="highlight">SUCCESS!</p>
+				<p class="title">
+					███████╗██╗&nbsp;&nbsp;&nbsp;██╗&nbsp;██████╗&nbsp;██████╗███████╗███████╗███████╗<br/>
+					██╔════╝██║&nbsp;&nbsp;&nbsp;██║██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝<br/>
+					███████╗██║&nbsp;&nbsp;&nbsp;██║██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;█████╗&nbsp;&nbsp;███████╗███████╗<br/>
+					╚════██║██║&nbsp;&nbsp;&nbsp;██║██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;██╔══╝&nbsp;&nbsp;╚════██║╚════██║<br/>
+					███████║╚██████╔╝╚██████╗╚██████╗███████╗███████║███████║<br/>
+					╚══════╝&nbsp;╚═════╝&nbsp;&nbsp;╚═════╝&nbsp;╚═════╝╚══════╝╚══════╝╚══════╝<br/>
+				</p>
 				<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
 				<p>You did it in ${timerView.data.minutes}:${timerView.data.seconds}.${timerView.data.milliseconds}</p>
 
