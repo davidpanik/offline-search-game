@@ -7,7 +7,7 @@ $color-blue: #0000F0;
 $color-green: #01F001;
 $color-cyan: #00F0F1;
 $color-purple: #F200F2;
-$border-width: 20px;
+$border-width: 2em;
 $font-family: Courier, sans-serif;
 
 
@@ -17,6 +17,7 @@ body {
 	height: 100vh;
 	text-align: center;
 	background: $color-black;
+	font-size: 1.7vmin;
 }
 
 * {
@@ -32,7 +33,7 @@ button {
 	background: $color-purple;
 	color: #fff;
 	border: none;
-	padding: 20px;
+	padding: 1em;
 	font-size: 1.1em;
 
 	&:hover,
@@ -41,7 +42,7 @@ button {
 	}
 
 	&.small {
-		padding: 5px 20px;
+		padding: 0.25em 1em;
 		font-size: 1.8em;
 	}
 
@@ -81,6 +82,8 @@ p {
 		width: 80%;
 		max-width: 1000px;
 		margin: 0 auto;
+		max-height: 85vh;
+		overflow-y: auto;
 	}
 }
 
@@ -89,8 +92,8 @@ p {
 		position: fixed;
 		top: 0;
 		right: 0;
-		border: $border-width solid $color-blue;
-		padding: 10px 20px;
+		border: $border-width / 2 solid $color-blue;
+		padding: 0.5em 1em;
 		background: $color-yellow;
 		font-size: 1.5em;
 		font-weight: bold;
@@ -109,7 +112,7 @@ section.book {
 
 		li {
 			display: inline-block;
-			margin: 10px;
+			margin: 0.4em;
 		}
 	}
 }
@@ -154,10 +157,24 @@ section.page {
 
 		li {
 			font-size: 0.9em;
+			border-bottom: 1px dotted rgba($color-yellow, 0.2);
+		}
+
+		.name {
+			padding-right: 0.4em;
+		}
+
+		.name,
+		.number {
+			background: $color-black;
+			display: inline-block;
+			position: relative;
+			bottom: -1px;
 		}
 
 		.number {
 			float: right;
+			padding-left: 0.4em;
 		}
 	}
 }

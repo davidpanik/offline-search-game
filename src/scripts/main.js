@@ -87,7 +87,7 @@ let appView = new View('app', store, function() {
 		let page = appView.data.phoneBook.pages[appView.data.phoneBook.currentPage];
 
 		let entries = page.map((entry) => {
-			return `<li>${entry.surname}, ${entry.title} ${entry.initial} <span class="number">${entry.number}</span></li>`;
+			return `<li><span class="name">${entry.surname}, ${entry.title} ${entry.initial}</span><span>&nbsp;</span><span class="number">${entry.number}</span></li>`;
 		});
 
 		return `
