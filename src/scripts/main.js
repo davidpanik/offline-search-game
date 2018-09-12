@@ -81,7 +81,7 @@ let appView = new View('app', store, function() {
 				<p class="highlight">The phonebook</p>
 
 				<p>Imagine this is the phonebook. It was a physical book printed on cheap paper, several inches thick and thousands of pages long.</p>
-				<p>Take a guess how far through the book you want to open</p>
+				<p>Take a guess how far through the book you want to open:</p>
 
 				<ul>
 					${links}
