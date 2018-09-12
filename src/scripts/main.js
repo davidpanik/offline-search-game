@@ -46,7 +46,7 @@ let appView = new View('app', store, function() {
 				<p>Please find the phone number for:</p>
 				<p class="highlight">${this.data.target.title} ${this.data.target.initial} ${this.data.target.surname}</p>
 
-				<p><input type="number" min="0" max="999999" maxlength="6" id="game-input"><button on-click="game-submit"><span class="icon">&phone;</span> Dial</button></p>
+				<p><input type="text" maxlength="7" id="game-input"><button on-click="game-submit"><span class="icon">&phone;</span> Dial</button></p>
 
 				<button on-click="game-begin">Get out phonebook</button>
 
@@ -108,7 +108,7 @@ let appView = new View('app', store, function() {
 	case 'success':
 		return `
 			<section class="success">
-				<p>SUCCESS!</p>
+				<p class="highlight">SUCCESS!</p>
 				<p>Well done - that was the correct number for ${this.data.target.title} ${this.data.target.surname}!</p>
 				<p>You did it in ${timerView.data.minutes}:${timerView.data.seconds}.${timerView.data.milliseconds}</p>
 
@@ -158,6 +158,8 @@ function newGame() {
 		failures: []
 	});
 
+	// console.log(appView.data.target);
+
 	timer.reset().show().start();
 }
 
@@ -199,7 +201,7 @@ function failure(answer) {
 
 function checkAnswer() {
 	let answer = document.getElementById('game-input').value.replace('-', '').trim();
-
+console.log(answer);
 	if (answer === appView.data.target.number.replace('-', '')) {
 		success();
 	} else {
