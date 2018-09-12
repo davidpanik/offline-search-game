@@ -92,11 +92,11 @@ let appView = new View('app', store, function() {
 
 		return `
 			<section class="page">
-				<button on-click="page-back-few" title="Back a few pages"><span class="icon">&Larr;</span></button>
-				<button on-click="page-back-one" title="Back one page"><span class="icon">&leftarrow;</span></button>
-				<button on-click="page-forward-one" title="Forward one page"><span class="icon">&rightarrow;</span></button>
-				<button on-click="page-forward-few" title="Forward a few pages"><span class="icon">&Rarr;</span></button>
-				<button on-click="page-back" title="Close phonebook"><span class="icon">&larrhk;</span></button>
+				<button on-click="page-back-few" class="small" title="Back a few pages"><span class="icon">&Larr;</span></button>
+				<button on-click="page-back-one" class="small" title="Back one page"><span class="icon">&leftarrow;</span></button>
+				<button on-click="page-forward-one" class="small" title="Forward one page"><span class="icon">&rightarrow;</span></button>
+				<button on-click="page-forward-few" class="small" title="Forward a few pages"><span class="icon">&Rarr;</span></button>
+				<button on-click="page-back" class="small" title="Close phonebook"><span class="icon">&larrhk;</span></button>
 
 				<p class="highlight">Page number: ${appView.data.phoneBook.currentPage + 1}</p>
 				<ul>
@@ -189,6 +189,7 @@ function success() {
 function failure(answer) {
 	if (answer !== '') {
 		appView.data.failures.push(answer);
+		appView.data.failures = appView.data.failures.slice(-6);
 
 		appView.update({
 			failures: appView.data.failures

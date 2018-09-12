@@ -39,9 +39,19 @@ button {
 	&:focus {
 		background:  $color-cyan;
 	}
+
+	&.small {
+		padding: 5px 20px;
+		font-size: 1.8em;
+	}
+
+	span {
+		pointer-events: none;
+	}
 }
 
 section.page li,
+section.game li,
 p {
 	color: $color-yellow;
 	font-weight: bold;
@@ -65,6 +75,7 @@ p {
 #app {
 	display: flex;
 	align-items: center;
+	width: 100%;
 
 	section {
 		width: 80%;
@@ -104,6 +115,11 @@ section.book {
 }
 
 section.game {
+	.highlight {
+		margin-top: 2em;
+		margin-bottom: 2em;
+	}
+
 	input {
 		background: $color-blue;
 		color: $color-white;
@@ -113,14 +129,28 @@ section.game {
 		font-weight: bold;
 		letter-spacing: 0.2em;
 		font-size: 2em;
-		padding: 0.8em;
+		padding: 0.4em 0.8em;
+		margin-right: 1em;
+	}
+
+	ul {
+		margin-top: 2em;
+
+		li {
+			color: $color-purple;
+		}
 	}
 }
 
 section.page {
+	.highlight {
+		margin-top: 1em;
+	}
+
 	ul {
 		text-align: left;
 		column-count: 2;
+		column-gap: 2em;
 
 		li {
 			font-size: 0.9em;
@@ -130,12 +160,6 @@ section.page {
 			float: right;
 		}
 	}
-}
-
-.icon {
-	font-size: 1.6em;
-	position: relative;
-	top: 0.2em;
 }
 
 .highlight {
